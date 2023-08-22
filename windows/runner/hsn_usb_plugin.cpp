@@ -65,14 +65,6 @@ private:
     int window_proc_id = -1;
 };
 
-/*void LOG_D(const char *format, ...);
-void notifyLoadingState(bool value);
-void notifyProbeState(int32_t value);
-void notifyErrorState(std::string err_str, int err_num);
-void notifySelfTestPrgress(int progress);
-void printError(int err_num);*/
-// void HsnUSBPluginRegisterWithRegistrar(FlutterDesktopPluginRegistrarRef registrar);
-
 void HsnUSBPluginRegisterWithRegistrar(
     FlutterDesktopPluginRegistrarRef registrar)
 {
@@ -126,22 +118,6 @@ HsnUSBPlugin::~HsnUSBPlugin()
 std::string HsnUSBPlugin::connectUSB(const int &result)
 {
     // 여기서 USB 연결 시도.
-    // 방법 1. USBReceiver.cpp의 함수들을 여기서 다시 구현
-    // 방법 2. 실제 USB 연결은 USBReceiver 객체에게 맡기고, 여기서는 그 결과를 받는 방식.
-    std::string result_str = "USB 연결 테스트 : ";
-
-    /*USBReceiver usbReceiver(handleUSBEvent);
-    auto handle = usbReceiver.getHandle();
-    auto ret = HsnLibrary::initialize(handle);
-
-    HsnLibrary::Callback::registerLoadingStateCallback(notifyLoadingState);
-    HsnLibrary::Callback::registerProbeStateCallback(notifyProbeState);
-    HsnLibrary::Callback::registerErrorStateCallback(notifyErrorState);
-    HsnLibrary::Callback::registerSelfTestProgressCallback(notifySelfTestPrgress);
-
-
-    HsnLibrary::Probe::detectConnection();
-    HsnLibrary::Probe::connect(0);*/
     result_str += std::to_string(result);
 
     return result_str;
@@ -176,62 +152,3 @@ std::optional<LRESULT> HsnUSBPlugin::HandleWindowProc(HWND hwnd, UINT message, W
     }
     return result;
 }
-/*
-void LOG_D(const char *format, ...)
-{
-    static char buffer[8192]{0};
-    va_list arg;
-    va_start(arg, format);
-    vsprintf(buffer, format, arg);
-    va_end(arg);
-    OutputDebugStringA(buffer);
-    memset(buffer, 0, 8192);
-}
-
-void notifyLoadingState(bool value)
-{
-    printf("loading : %s\n", value ? "start" : "end");
-}
-void notifyProbeState(int32_t value)
-{
-    const char *obj_val = nullptr;
-    switch (value)
-    {
-    case 0:
-        obj_val = "DISABLE";
-        break;
-    case 1:
-        obj_val = "ENABLE";
-        break;
-    case 2:
-        obj_val = "CONNECTED";
-        break;
-    case 3:
-        obj_val = "ACTIVATED";
-        break;
-    case 4:
-        obj_val = "READY";
-        break;
-    case 5:
-        obj_val = "STREAMING";
-        break;
-    }
-
-    printf("Probe State : %s\n", obj_val);
-    LOG_D("Probe State : %s\n", obj_val);
-}
-void notifyErrorState(std::string err_str, int err_num)
-{
-    printf("error : %s (%d)\n", err_str.c_str(), err_num);
-}
-
-void notifySelfTestPrgress(int progress)
-{
-    printf("progress : %d\n", progress);
-}
-
-void printError(int err_num)
-{
-    printf("error : %d\n", err_num);
-}
-*/
